@@ -11,7 +11,7 @@ const OAuth2 = google.auth.OAuth2;
 // using cors
 app.use(
     cors({
-        origin: ["http://localhost:3000", "https://trippayer.netlify.app"], // restrict calls to those this address
+        origin: ["https://trippayer.netlify.app", "https://trippayer.com", "https://www.trippayer.com"], // restrict calls to those this address
         methods: "POST" // only allow POST requests
     })
 );
