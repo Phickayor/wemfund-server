@@ -1,13 +1,10 @@
 var express = require("express")
 var app = express()
 const PORT = process.env.PORT || 3001;
-
 require("dotenv").config();
 const bodyParser = require("body-parser");
 var nodemailer = require("nodemailer");
 const cors = require("cors");
-const { google } = require("googleapis");
-const OAuth2 = google.auth.OAuth2;
 // using cors
 app.use(
     cors({
@@ -15,16 +12,6 @@ app.use(
         methods: "POST" // only allow POST requests
     })
 );
-const oauth2Client = new OAuth2(
-    process.env.OAUTH_CLIENTID, // ClientID
-    process.env.OAUTH_CLIENT_SECRET, // Client Secret
-    "https://developers.google.com/oauthplayground" // Redirect URL
-);
-
-oauth2Client.setCredentials({
-    refresh_token: process.env.OAUTH_REFRESH_TOKEN
-});
-const accessToken = oauth2Client.getAccessToken()
 //using body-parser
 // Body-parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -41,13 +28,8 @@ app.post("/message", (req, res) => {
     var transporter = nodemailer.createTransport({
         service: "gmail",
         auth: {
-            type: "OAuth2",
             user: process.env.MAIL_USERNAME,
             pass: process.env.MAIL_PASSWORD,
-            clientId: process.env.OAUTH_CLIENTID,
-            clientSecret: process.env.OAUTH_CLIENT_SECRET,
-            refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-            accessToken: accessToken
         }
     })
 
